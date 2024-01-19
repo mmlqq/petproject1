@@ -1,2 +1,20 @@
-package com.example.demo.mapper;public interface ProductMapper {
+package com.example.demo.mapper;
+
+import com.example.demo.dto.ProductDto;
+import com.example.demo.model.Product;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface ProductMapper {
+
+    @Mapping(target = "id", ignore = true)
+    Product to(ProductDto source);
+
+    ProductDto to(Product source);
+
+    List<ProductDto> to(List<Product> source);
 }
