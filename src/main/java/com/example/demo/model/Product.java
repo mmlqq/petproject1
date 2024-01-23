@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.stereotype.Service;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Setter
@@ -20,5 +21,8 @@ public class Product {
     private Integer price;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private ProductsCategory category;
 
 }

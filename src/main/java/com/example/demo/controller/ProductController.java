@@ -1,11 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ProductDto;
-import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.MappingTarget;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

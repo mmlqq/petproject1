@@ -2,7 +2,6 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.ProductDto;
 import com.example.demo.model.Product;
-import org.hibernate.dialect.function.PostgreSQLTruncRoundFunction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

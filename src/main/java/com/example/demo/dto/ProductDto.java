@@ -1,9 +1,8 @@
 package com.example.demo.dto;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.example.demo.model.ProductsCategory;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 @Setter
 @Getter
@@ -16,4 +15,6 @@ public class ProductDto {
     private Integer price;
 
     private String description;
+
+    private ProductsCategory category;
 }
