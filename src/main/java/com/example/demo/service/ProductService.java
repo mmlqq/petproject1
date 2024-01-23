@@ -18,22 +18,35 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public ProductDto findById(Integer id){
+    public ProductDto findById(Integer id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         return productMapper.to(product);
     }
 
     @Transactional
-    public List<ProductDto> findAll(){
+    public List<ProductDto> findAll() {
         List<Product> productList = productRepository.findAll();
         return productMapper.to(productList);
     }
 
     @Transactional
-    public void save(ProductDto productDto){
+    public void save(ProductDto productDto) {
         Product product = productMapper.to(productDto);
         productRepository.save(product);
+    }
+
+    @Transactional
+    public void delete(Integer id) {
+        productRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void update(ProductDto productDto, Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        productMapper.update(productDto, product);
+
     }
 
 
