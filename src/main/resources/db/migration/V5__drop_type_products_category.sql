@@ -1,1 +1,1 @@
-drop type product_
+drop type products_category;

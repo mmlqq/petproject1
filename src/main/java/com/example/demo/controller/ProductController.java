@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ProductDto;
+import com.example.demo.dto.ProductsSortingDto;
+import com.example.demo.model.ProductsCategory;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,22 @@ public class ProductController {
         return productService.findAll();
     }
 
+//    @GetMapping("/search")
+//    public List<ProductDto> findByCategory(@RequestParam ProductsCategory category,
+//                                           @RequestParam String column,
+//                                           @RequestParam String direction) {
+//        return productService.sortAllByCategory(category, column, direction);
+
+    //    }
+
+    @PostMapping(value = "/search")
+    public List<ProductDto> sortProducts(@RequestBody ProductsSortingDto productsSortingDto) {
+        return productService.sortAllByCategory(
+                productsSortingDto.getCategory(),
+                productsSortingDto.getColumn(),
+                productsSortingDto.getDirection());
+    }
+
     @PostMapping
     public void save(@RequestBody ProductDto productDto) {
         productService.save(productDto);
@@ -37,5 +55,4 @@ public class ProductController {
     public void update(@RequestBody ProductDto productDto, @PathVariable Integer id) {
         productService.update(productDto, id);
     }
-
 }
