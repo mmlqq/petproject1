@@ -25,7 +25,7 @@ public class ProductController {
         return productService.findById(id);
     }
 
-    @GetMapping(value = "/find{category}")
+    @GetMapping(value = "/find")
     public List<ProductDto> findByCategory(@RequestParam ProductsCategory category) {
         return productService.findByCategory(category);
     }
