@@ -1,14 +1,16 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.FiltersDto;
 import com.example.demo.dto.ProductDto;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductsCategory;
 import com.example.demo.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Path;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,12 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
+    public List<ProductDto> findAll() {
+        List<Product> productList = productRepository.findAll();
+        return productMapper.to(productList);
+    }
+
+    @Transactional
     public ProductDto findById(Integer id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -27,19 +35,13 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDto> findAll() {
-        List<Product> productList = productRepository.findAll();
-        return productMapper.to(productList);
-    }
-
-    @Transactional
     public List<ProductDto> findByCategory(ProductsCategory category) {
-        return productMapper.to(productRepository.findByCategory(category));
+        return productMapper.to(productRepository.findByCategory((category)));
     }
 
     @Transactional
-    public List<ProductDto> sortAllByCategory(ProductsCategory category, String column, String direction) {
-        return productMapper.to(findAndSort(category, column, direction));
+    public List<ProductDto> findAllByCategoryAndSortByColumn(FiltersDto filters) {
+        return productMapper.to(productRepository.findAll(getByCategoryAndSortByColumn(filters)));
     }
 
     @Transactional
@@ -60,11 +62,16 @@ public class ProductService {
         productMapper.update(productDto, product);
     }
 
-    private List<Product> findAndSort(ProductsCategory category, String column, String direction) {
-        List<Product> products = productRepository.findAllByCategory(category,
-                direction.equals("asc")
-                        ? Sort.by(Sort.Order.asc(column))
-                        : Sort.by(Sort.Order.desc(column)));
-        return products;
+    private Specification<Product> getByCategoryAndSortByColumn(FiltersDto filters) {
+        return ((root, query, criteriaBuilder) -> {
+            Path<Object> column = root.get(filters.getColumn());
+            query.orderBy(filters.getDirection().equals("asc")
+                    ? criteriaBuilder.asc(column)
+                    : criteriaBuilder.desc(column));
+            return criteriaBuilder.and(
+                    criteriaBuilder.between(root.get("price"), filters.getLowPrice(), filters.getHighPrice()),
+                    criteriaBuilder.equal(root.get("category"), filters.getCategory())
+            );
+        });
     }
 }

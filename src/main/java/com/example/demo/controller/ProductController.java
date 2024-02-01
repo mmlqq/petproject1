@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.FiltersDto;
 import com.example.demo.dto.ProductDto;
-import com.example.demo.dto.ProductsSortingDto;
 import com.example.demo.model.ProductsCategory;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -15,30 +15,24 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping(value = "/{id}")
-    public ProductDto findById(@PathVariable Integer id) {
-        return productService.findById(id);
-    }
-
     @GetMapping
     public List<ProductDto> findAll() {
         return productService.findAll();
     }
 
-//    @GetMapping("/search")
-//    public List<ProductDto> findByCategory(@RequestParam ProductsCategory category,
-//                                           @RequestParam String column,
-//                                           @RequestParam String direction) {
-//        return productService.sortAllByCategory(category, column, direction);
+    @GetMapping(value = "/{id}")
+    public ProductDto findById(@PathVariable Integer id) {
+        return productService.findById(id);
+    }
 
-    //    }
+    @GetMapping(value = "/find{category}")
+    public List<ProductDto> findByCategory(@RequestParam ProductsCategory category) {
+        return productService.findByCategory(category);
+    }
 
-    @PostMapping(value = "/search")
-    public List<ProductDto> sortProducts(@RequestBody ProductsSortingDto productsSortingDto) {
-        return productService.sortAllByCategory(
-                productsSortingDto.getCategory(),
-                productsSortingDto.getColumn(),
-                productsSortingDto.getDirection());
+    @PostMapping(value = "/filter")
+    public List<ProductDto> findByCategoryAndFilter(@RequestBody FiltersDto filters) {
+        return productService.findAllByCategoryAndSortByColumn(filters);
     }
 
     @PostMapping

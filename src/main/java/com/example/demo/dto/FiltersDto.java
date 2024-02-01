@@ -6,11 +6,17 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ProductsSortingDto {
+public class FiltersDto {
 
     private ProductsCategory category;
 
     private String column;
 
     private String direction;
+
+    private Integer lowPrice;
+
+    private Integer highPrice;
+
+
 }
