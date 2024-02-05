@@ -24,4 +24,7 @@ public class User {
     private String phoneNumber;
 
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Bucket bucket = new Bucket();
 }

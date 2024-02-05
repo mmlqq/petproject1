@@ -39,6 +39,4 @@ public class UserController {
     public void update(@RequestBody UserDto userDto, @PathVariable Integer id) {
         userService.updateById(userDto, id);
     }
-
-
 }

@@ -18,8 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
     private final ProductMapper productMapper;
+
     private final ProductRepository productRepository;
+
 
     @Transactional
     public List<ProductDto> findAll() {
@@ -42,6 +45,11 @@ public class ProductService {
     @Transactional
     public List<ProductDto> findAllByCategoryAndSortByColumn(FiltersDto filters) {
         return productMapper.to(productRepository.findAll(getByCategoryAndSortByColumn(filters)));
+    }
+
+    @Transactional
+    public Product fetch(Integer id) {
+        return productRepository.getReferenceById(id);
     }
 
     @Transactional

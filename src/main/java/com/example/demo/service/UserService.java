@@ -15,12 +15,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    private final UserRepository userRepository;
 
     @Transactional
     public List<UserDto> findAll() {
         return userMapper.to(userRepository.findAll());
+    }
+
+    @Transactional
+    public void save(UserDto userDto) {
+        User user = userMapper.to(userDto);
+        user.getBucket().setUser(user);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -31,9 +39,8 @@ public class UserService {
     }
 
     @Transactional
-    public void save(UserDto userDto) {
-        User user = userMapper.to(userDto);
-        userRepository.save(user);
+    public User fetch(Integer id) {
+        return userRepository.getReferenceById(id);
     }
 
     @Transactional
