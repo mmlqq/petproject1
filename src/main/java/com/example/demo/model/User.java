@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -27,4 +30,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Bucket bucket = new Bucket();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Order> order = new ArrayList<>();
 }

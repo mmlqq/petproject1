@@ -32,4 +32,9 @@ public class BucketController {
         bucketService.deleteProduct(userId, productId);
     }
 
+//    @PutMapping(value = "/clear/{userId}")
+//    public void clearBucketByUserId(@PathVariable Integer userId){
+//        bucketService.deleteAllProducts(userId);
+//    }
+
 }

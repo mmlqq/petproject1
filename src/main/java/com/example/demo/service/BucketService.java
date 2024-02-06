@@ -24,6 +24,11 @@ public class BucketService {
     }
 
     @Transactional
+    public Bucket fetchByUserId(Integer id) {
+        return bucketRepository.findByUserId(id);
+    }
+
+    @Transactional
     public void save(BucketDto bucketDto) {
         bucketRepository.save(bucketMapper.to(bucketDto));
     }
@@ -38,5 +43,11 @@ public class BucketService {
     public void deleteProduct(Integer userId, Integer productId) {
         Bucket bucket = bucketRepository.findByUserId(userId);
         bucket.getProducts().remove(productService.fetch(productId));
+    }
+
+    @Transactional
+    public void deleteAllProducts(Integer userId) {
+        Bucket bucket = bucketRepository.findByUserId(userId);
+        bucket.getProducts().clear();
     }
 }
