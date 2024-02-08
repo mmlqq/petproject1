@@ -25,31 +25,23 @@ public class ProductService {
 
 
     @Transactional
-    public List<ProductDto> findAll() {
-        List<Product> productList = productRepository.findAll();
-        return productMapper.to(productList);
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Transactional
-    public ProductDto findById(Integer id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-        return productMapper.to(product);
+    public Product findById(Integer id) {
+        return productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
-    public List<ProductDto> findByCategory(ProductsCategory category) {
-        return productMapper.to(productRepository.findByCategory((category)));
+    public List<Product> findByCategory(ProductsCategory category) {
+        return productRepository.findByCategory((category));
     }
 
     @Transactional
     public List<ProductDto> findAllByCategoryAndSortByColumn(FiltersDto filters) {
         return productMapper.to(productRepository.findAll(getByCategoryAndSortByColumn(filters)));
-    }
-
-    @Transactional
-    public Product fetch(Integer id) {
-        return productRepository.getReferenceById(id);
     }
 
     @Transactional

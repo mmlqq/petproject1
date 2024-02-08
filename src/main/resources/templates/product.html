@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/css/productPageStyle.css}">
+</head>
+<header th:text="${product.name}"></header>
+<body>
+<p class="description" th:text="${product.description}"></p>
+<p class="price" th:text="${product.price}"></p>
+</body>
+</html>

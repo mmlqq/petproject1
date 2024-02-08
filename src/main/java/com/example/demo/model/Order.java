@@ -25,6 +25,11 @@ public class Order {
 
     private String address;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    private Integer totalPrice;
+
     @ManyToMany
     @JoinTable(
             name = "orders_products",

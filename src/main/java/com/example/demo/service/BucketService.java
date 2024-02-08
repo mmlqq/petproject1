@@ -36,13 +36,13 @@ public class BucketService {
     @Transactional
     public void addProduct(Integer userId, Integer productId) {
         Bucket bucket = bucketRepository.findByUserId(userId);
-        bucket.getProducts().add(productService.fetch(productId));
+        bucket.getProducts().add(productService.findById(productId));
     }
 
     @Transactional
     public void deleteProduct(Integer userId, Integer productId) {
         Bucket bucket = bucketRepository.findByUserId(userId);
-        bucket.getProducts().remove(productService.fetch(productId));
+        bucket.getProducts().remove(productService.findById(productId));
     }
 
     @Transactional

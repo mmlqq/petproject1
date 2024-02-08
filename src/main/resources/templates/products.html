@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
+    <style>
+table, th, td {
+  padding: 16px;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+table{
+  max-width: 700px;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="categoryDiv">
+    <a th:each="category : ${categories}"
+       th:text="${category}"
+       th:href="@{/products/?category={c}(c=${category})}">
+    </a>
+</div>
+<div class="tableDiv">
+    <table>
+        <tr class="tableHeader">
+            <th>Product Name</th>
+            <th>Product Description</th>
+            <th>Product Category</th>
+            <th>Price</th>
+        </tr>
+        <tr class="tableData" th:each="product : ${products}">
+            <td><a
+                    th:text="${product.name}"
+                    th:href="@{/products/{id}(id=${product.id})}"></a></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.category}"></td>
+            <td th:text="${product.price}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+tr.tableHeader {
+    background-color: #d6af13;
+}
+
+.tableData {
+    background-color: #b5b4b0;
+}
+
+.tableData a{
+    color: white;
+    transition: color 0.5s;
+}
+
+.tableData a:hover{
+    color: black;
+}
+
+td {
+    font-weight: 500;
+}
+
+.tableDiv {
+        display: flex;
+        justify-content: center;
+        padding-top: 88px;
+        padding-bottom: 14px;
+}
+.categoryDiv {
+        font-size: 36px;
+        background-color: #b5b4b0;
+        border: 2px solid black;
+        justify-content: center;
+        margin: 0 auto;
+        max-width: 800px;
+}
+
+.categoryDiv a{
+    padding: 0 16px;
+    color: black;
+}
+
+.categoryDiv a:hover{
+    color: white;
+    transition: color 0.5s;
+}
+

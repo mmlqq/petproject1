@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.dto.OrderDto;
 import com.example.demo.mapper.OrderMapper;
 import com.example.demo.model.Order;
+import com.example.demo.model.OrderStatus;
+import com.example.demo.model.Product;
 import com.example.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -39,23 +41,40 @@ public class OrderService {
     public void create(Integer productId, OrderDto orderDto) {
         Order order = new Order();
         order.setUser(userService.fetch(orderDto.getUserId()));
-        order.getProducts().add(productService.fetch(productId));
+        Product product = productService.findById(productId);
+        order.getProducts().add(product);
         order.setAddress(orderDto.getAddress());
+        order.setOrderStatus(OrderStatus.CREATED);
+        order.setTotalPrice(product.getPrice());
         orderRepository.save(order);
     }
 
     @Transactional
     public void createByUsingBucket(OrderDto orderDto) {
-        Order order = new Order();
-        order.setUser(userService.fetch(orderDto.getUserId()));
-        order.setAddress(orderDto.getAddress());
-        order.getProducts().addAll(bucketService.fetchByUserId(orderDto.getUserId()).getProducts());
-        orderRepository.save(order);
-        bucketService.deleteAllProducts(orderDto.getUserId());
+        orderRepository.save(createAnOrder(orderDto));
     }
 
     @Transactional
     public void deleteById(Integer id) {
         orderRepository.deleteById(id);
+    }
+
+    private Order createAnOrder(OrderDto orderDto) {
+        int totalPrice = 0;
+        Order order = new Order();
+        order.setUser(userService.fetch(orderDto.getUserId()));
+        order.setAddress(orderDto.getAddress());
+
+        List<Product> products = bucketService.fetchByUserId(orderDto.getUserId()).getProducts();
+        order.getProducts().addAll(products);
+
+        for (Product product : products) {
+            totalPrice = totalPrice + product.getPrice();
+        }
+
+        order.setTotalPrice(totalPrice);
+        order.setOrderStatus(OrderStatus.CREATED);
+
+        return order;
     }
 }
