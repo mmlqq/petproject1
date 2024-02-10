@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/css/homeButton.css}"/>
     <style>
 table, th, td {
-  padding: 16px;
-  border: 1px solid black;
-  border-collapse: collapse;
+  padding: 12px;
 }
 table{
   max-width: 700px;
 }
+
 
 
     </style>
@@ -22,21 +22,29 @@ table{
        th:href="@{/products/?category={c}(c=${category})}">
     </a>
 </div>
+<a th:insert="~{homeButton :: homeButton}"></a>
 <div class="tableDiv">
     <table>
         <tr class="tableHeader">
-            <th>Product Name</th>
-            <th>Product Description</th>
-            <th>Product Category</th>
-            <th>Price</th>
+            <th></th>
+            <th>
+                <a th:href="@{/products/{column}/{direction}/{lowestPrice}/{highestPrice}
+                (
+                column=name,
+                direction=${product.direction},
+                lowestPrice=0),
+                highestPrice=999999}"></a></th>
+            <th></th>
+            <th></th>
+
         </tr>
-        <tr class="tableData" th:each="product : ${products}">
-            <td><a
+        <tr class="tableRow" th:each="product : ${products}">
+            <td><img th:src="${product.imageLink}" width="120" height="120"></td>
+            <td class="tableName"><a
                     th:text="${product.name}"
                     th:href="@{/products/{id}(id=${product.id})}"></a></td>
-            <td th:text="${product.description}"></td>
-            <td th:text="${product.category}"></td>
-            <td th:text="${product.price}"></td>
+            <td class="tableDescription" th:text="${product.description}"></td>
+            <td th:text="${product.price} + '$'"></td>
         </tr>
     </table>
 </div>

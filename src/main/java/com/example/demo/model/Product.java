@@ -22,6 +22,8 @@ public class Product {
 
     private String description;
 
+    private String imageLink;
+
     @Enumerated(EnumType.STRING)
     private ProductsCategory category;
 }

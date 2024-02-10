@@ -1,5 +1,3 @@
-drop table if exists users_products;
-
 create table if not exists buckets_products
 (
     bucket_id int not null,

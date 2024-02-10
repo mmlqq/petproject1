@@ -1,8 +1,14 @@
-header {
-    background-color: #b5b4b0;
-    font-size: 32px;
-    justify-content: center;
-    display: flex;
+p.productName {
+    background-color: darkslategrey;
+        font-size: 46px;
+        justify-content: center;
+        display: flex;
+        max-width: fit-content;
+        margin: 0 auto;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        color: floralwhite;
+        max-width: 43%;
 }
 
 p.description {
@@ -12,13 +18,19 @@ p.description {
     border: 1px solid black;
     border-collapse: collapse;
     margin: 0 auto;
-    margin-top: 500px;
+    margin-top: 10px;
     width: 30%;
 }
 
-p.price{
+p.price {
     font-size: 26px;
     display: flex;
     justify-content: right;
     padding-right: 160px;
 }
+
+.image {
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    }

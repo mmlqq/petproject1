@@ -1,18 +1,23 @@
-tr.tableHeader {
+/*tr.tableHeader {
     background-color: #d6af13;
 }
 
 .tableData {
     background-color: #b5b4b0;
+}*/
+
+.tableRow{
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 
-.tableData a{
-    color: white;
+.tableName a{
+    color: black;
     transition: color 0.5s;
 }
 
-.tableData a:hover{
-    color: black;
+.tableName a:hover{
+    color: grey;
 }
 
 td {
@@ -26,21 +31,21 @@ td {
         padding-bottom: 14px;
 }
 .categoryDiv {
-        font-size: 36px;
-        background-color: #b5b4b0;
-        border: 2px solid black;
+        display: flex;
+        font-size: 38px;
+        background-color: darkslategrey;
         justify-content: center;
         margin: 0 auto;
-        max-width: 800px;
+        max-width: 781px;
 }
 
 .categoryDiv a{
     padding: 0 16px;
-    color: black;
+    color: white;
 }
 
 .categoryDiv a:hover{
-    color: white;
+    color: black;
     transition: color 0.5s;
 }
 

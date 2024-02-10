@@ -1,0 +1,15 @@
+.homeButton {
+    color: white;
+    font-size: 29px;
+    background-color: green;
+    margin: 4px auto;
+    max-width: 89px;
+    max-height: 31px;
+    display: flex;
+    justify-content: center;
+}
+
+.homeButton:hover {
+    color: black;
+    transition: color 0.5s;
+}

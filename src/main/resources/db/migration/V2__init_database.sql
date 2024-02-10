@@ -1,4 +1,3 @@
-CREATE TYPE products_category AS ENUM ('Bed','Table','Wardrobe','Chair','Armchair','Other');
 create table if not exists products
 (
     id serial not null
@@ -6,5 +5,6 @@ create table if not exists products
     name varchar not null,
     price int not null,
     description varchar not null,
-    category products_category not null
+    image_link varchar not null,
+    category varchar not null
 );

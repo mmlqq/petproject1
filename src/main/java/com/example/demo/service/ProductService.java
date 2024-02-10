@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.FiltersDto;
 import com.example.demo.dto.ProductDto;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.model.Product;
@@ -40,9 +39,23 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDto> findAllByCategoryAndSortByColumn(FiltersDto filters) {
-        return productMapper.to(productRepository.findAll(getByCategoryAndSortByColumn(filters)));
+    public List<ProductDto> sortByColumn(String columnName, String direction) {
+        return productMapper.to(productRepository.findAll(sortByColumnAndGet(columnName, direction)));
     }
+
+//    @Transactional
+//    public List<Product> filterByColumn(ProductsCategory category,
+//                                        String column,
+//                                        String direction,
+//                                        Integer lowestPrice,
+//                                        Integer highestPrice) {
+//        return productRepository.findAll(getByCategoryAndSortByColumn(
+//                category,
+//                column,
+//                direction,
+//                lowestPrice,
+//                highestPrice));
+//    }
 
     @Transactional
     public void save(ProductDto productDto) {
@@ -62,15 +75,29 @@ public class ProductService {
         productMapper.update(productDto, product);
     }
 
-    private Specification<Product> getByCategoryAndSortByColumn(FiltersDto filters) {
-        return ((root, query, criteriaBuilder) -> {
-            Path<Object> column = root.get(filters.getColumn());
-            query.orderBy(filters.getDirection().equals("asc")
+    private Specification<Product> sortByColumnAndGet(String columnName, String direction) {
+        return (((root, query, criteriaBuilder) -> {
+            Path<Object> column = root.get(columnName);
+            query.orderBy(direction.equals("asc")
                     ? criteriaBuilder.asc(column)
                     : criteriaBuilder.desc(column));
+            return criteriaBuilder.conjunction();
+        }));
+    }
+
+    private Specification<Product> getByCategoryAndSortByColumn(ProductsCategory category,
+                                                                String column,
+                                                                String direction,
+                                                                Integer lowestPrice,
+                                                                Integer highestPrice) {
+        return ((root, query, criteriaBuilder) -> {
+            Path<Object> columnName = root.get(column);
+            query.orderBy(direction.equals("asc")
+                    ? criteriaBuilder.asc(columnName)
+                    : criteriaBuilder.desc(columnName));
             return criteriaBuilder.and(
-                    criteriaBuilder.between(root.get("price"), filters.getLowPrice(), filters.getHighPrice()),
-                    criteriaBuilder.equal(root.get("category"), filters.getCategory())
+                    criteriaBuilder.between(root.get("price"), lowestPrice, highestPrice),
+                    criteriaBuilder.equal(root.get("category"), category)
             );
         });
     }

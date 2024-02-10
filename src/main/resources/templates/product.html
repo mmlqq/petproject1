@@ -2,10 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/styles/css/productPageStyle.css}">
+    <link rel="stylesheet" th:href="@{/styles/css/homeButton.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
 </head>
-<header th:text="${product.name}"></header>
 <body>
+<div class="categoryDiv">
+    <a th:each="category : ${categories}"
+       th:text="${category}"
+       th:href="@{/products/?category={c}(c=${category})}">
+    </a>
+</div>
+<a th:insert="~{homeButton :: homeButton}"></a>
+<p class="productName" th:text="${product.name}"></p>
+<img class="image" th:src="${product.imageLink}" width="500" height="500">
 <p class="description" th:text="${product.description}"></p>
-<p class="price" th:text="${product.price}"></p>
+<p class="price" th:text="${product.price} + '$'"></p>
 </body>
 </html>

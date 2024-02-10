@@ -16,5 +16,7 @@ public class ProductDto {
 
     private String description;
 
+    private String imageLink;
+
     private ProductsCategory category;
 }
