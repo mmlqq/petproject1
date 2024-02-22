@@ -1,0 +1,6 @@
+.ordersButton{
+    font-size: 26px;
+        display: flex;
+        justify-content: center;
+        color: black;
+}

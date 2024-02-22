@@ -5,8 +5,8 @@ p.productName {
         display: flex;
         max-width: fit-content;
         margin: 0 auto;
-        margin-bottom: 40px;
-        margin-top: 40px;
+        margin-bottom: 7px;
+        margin-top: 7px;
         color: floralwhite;
         max-width: 43%;
 }
@@ -18,7 +18,7 @@ p.description {
     border: 1px solid black;
     border-collapse: collapse;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 7px;
     width: 30%;
 }
 

@@ -33,8 +33,8 @@ public class OrderService {
     }
 
     @Transactional
-    public List<OrderDto> findByUserId(Integer id) {
-        return orderMapper.to(orderRepository.findByUserId(id));
+    public List<Order> findByUserId(Integer id) {
+        return orderRepository.findByUserId(id);
     }
 
     @Transactional
@@ -50,8 +50,8 @@ public class OrderService {
     }
 
     @Transactional
-    public void createByUsingBucket(OrderDto orderDto) {
-        orderRepository.save(createAnOrder(orderDto));
+    public void createByUsingBucket(Integer userId, String address) {
+        orderRepository.save(createAnOrder(userId, address));
     }
 
     @Transactional
@@ -59,13 +59,21 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    private Order createAnOrder(OrderDto orderDto) {
+    @Transactional
+    public void cancelOrder(Integer id, boolean flag) {
+        if (flag) {
+            Order order = orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+            order.setOrderStatus(OrderStatus.CANCELED);
+        }
+    }
+
+    private Order createAnOrder(Integer userId, String address) {
         int totalPrice = 0;
         Order order = new Order();
-        order.setUser(userService.fetch(orderDto.getUserId()));
-        order.setAddress(orderDto.getAddress());
+        order.setUser(userService.fetch(userId));
+        order.setAddress(address);
 
-        List<Product> products = bucketService.fetchByUserId(orderDto.getUserId()).getProducts();
+        List<Product> products = bucketService.fetchByUserId(userId).getProducts();
         order.getProducts().addAll(products);
 
         for (Product product : products) {
@@ -74,7 +82,16 @@ public class OrderService {
 
         order.setTotalPrice(totalPrice);
         order.setOrderStatus(OrderStatus.CREATED);
+        bucketService.deleteAllProductsByUserId(userId);
 
         return order;
+    }
+
+    public boolean bucketIsEmpty(Integer userId) {
+        if (bucketService.findByUserId(userId).getProducts().size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

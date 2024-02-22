@@ -4,18 +4,41 @@
     <link rel="stylesheet" th:href="@{/styles/css/productPageStyle.css}">
     <link rel="stylesheet" th:href="@{/styles/css/homeButton.css}"/>
     <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/css/bucketButton.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/css/toCartButton.css}"/>
+    <style>
+        #popup{
+            display:none;
+        }
+        #popup.active{
+            display:block;
+        }
+
+
+    </style>
 </head>
 <body>
 <div class="categoryDiv">
     <a th:each="category : ${categories}"
        th:text="${category}"
-       th:href="@{/products/?category={c}(c=${category})}">
+       th:href="@{/products/categories(category=${category})}">
     </a>
 </div>
 <a th:insert="~{homeButton :: homeButton}"></a>
+<div class="bucketButton">
+    <a th:href="@{/buckets/1}"><img src="https://icons.veryicon.com/png/o/miscellaneous/unicons/cart-38.png"
+                                    style="width:100px;height:100px"></a>
+</div>
 <p class="productName" th:text="${product.name}"></p>
 <img class="image" th:src="${product.imageLink}" width="500" height="500">
+
 <p class="description" th:text="${product.description}"></p>
+<form class="toCartButton" action="#"
+      th:action="@{/buckets/addProduct/1/{id}(id=${product.id})}"
+      th:method="post"
+>
+    <input type="submit" value="Add to cart">
+</form>
 <p class="price" th:text="${product.price} + '$'"></p>
 </body>
 </html>

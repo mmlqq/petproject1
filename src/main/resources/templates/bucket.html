@@ -3,8 +3,7 @@
 <head>
     <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
     <link rel="stylesheet" th:href="@{/styles/css/homeButton.css}"/>
-    <link rel="stylesheet" th:href="@{/styles/css/arrowStyle.css}"/>
-    <link rel="stylesheet" th:href="@{/styles/css/bucketButton.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/css/ordersButton.css}"/>
     <style>
 table, th, td {
   padding: 12px;
@@ -18,6 +17,8 @@ table{
     </style>
 </head>
 <body>
+<div>
+</div>
 <div class="categoryDiv">
     <a th:each="category : ${categories}"
        th:text="${category}"
@@ -25,32 +26,40 @@ table{
     </a>
 </div>
 <a th:insert="~{homeButton :: homeButton}"></a>
-<div class="bucketButton">
-    <a th:href="@{/buckets/1}"><img src="https://icons.veryicon.com/png/o/miscellaneous/unicons/cart-38.png"
-                                    style="width:100px;height:100px"></a>
+<div>
+    <a class="ordersButton"
+       th:text="Orders"
+       th:href="@{/orders/find?userId=1}"></a>
 </div>
 <div class="tableDiv">
     <table>
         <tr>
-            <th>
-            </th>
-            <th>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='desc')}">↓</a>
-            </th>
             <th></th>
-            <th>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='desc')}">↓</a>
+            <th></th>
+            <th></th>
+            <th> Enter your address:
+                <form method="post" action="/orders/1">
+                    <input type="text" name="address">
+                    <button type="submit">Create Order</button>
+                </form>
             </th>
+            <th th:text="'Total Price: ' + ${totalPrice} + '$'"></th>
         </tr>
-        <tr class="tableRow" th:each="product : ${products}">
+        <tr class="tableRow" th:each="product : ${bucketProducts}">
             <td><img th:src="${product.imageLink}" width="120" height="120"></td>
             <td class="tableName"><a
                     th:text="${product.name}"
                     th:href="@{/products/{id}(id=${product.id})}"></a></td>
             <td class="tableDescription" th:text="${product.description}"></td>
             <td th:text="${product.price} + '$'"></td>
+            <td>
+                <form action="#"
+                      th:action="@{/buckets/deleteProduct/1/{id}(id=${product.id})}"
+                      th:method="delete"
+                >
+                    <input type="submit" value="delete">
+                </form>
+            </td>
         </tr>
     </table>
 </div>

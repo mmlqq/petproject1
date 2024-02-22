@@ -24,8 +24,11 @@ public class ProductService {
 
 
     @Transactional
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> findAll(String column, String direction) {
+        List<Product> products = (column == null && direction == null)
+                ? productRepository.findAll()
+                : productRepository.findAll(sortByColumnAndGet(column, direction));
+        return products;
     }
 
     @Transactional
@@ -34,28 +37,12 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findByCategory(ProductsCategory category) {
-        return productRepository.findByCategory((category));
+    public List<Product> findByCategory(ProductsCategory category, String column, String direction) {
+        List<Product> products = (column == null && direction == null)
+                ? productRepository.findByCategory(category)
+                : productRepository.findAll(getByCategoryAndSortByColumn(category, column, direction));
+        return products;
     }
-
-    @Transactional
-    public List<ProductDto> sortByColumn(String columnName, String direction) {
-        return productMapper.to(productRepository.findAll(sortByColumnAndGet(columnName, direction)));
-    }
-
-//    @Transactional
-//    public List<Product> filterByColumn(ProductsCategory category,
-//                                        String column,
-//                                        String direction,
-//                                        Integer lowestPrice,
-//                                        Integer highestPrice) {
-//        return productRepository.findAll(getByCategoryAndSortByColumn(
-//                category,
-//                column,
-//                direction,
-//                lowestPrice,
-//                highestPrice));
-//    }
 
     @Transactional
     public void save(ProductDto productDto) {
@@ -87,18 +74,13 @@ public class ProductService {
 
     private Specification<Product> getByCategoryAndSortByColumn(ProductsCategory category,
                                                                 String column,
-                                                                String direction,
-                                                                Integer lowestPrice,
-                                                                Integer highestPrice) {
+                                                                String direction) {
         return ((root, query, criteriaBuilder) -> {
             Path<Object> columnName = root.get(column);
             query.orderBy(direction.equals("asc")
                     ? criteriaBuilder.asc(columnName)
                     : criteriaBuilder.desc(columnName));
-            return criteriaBuilder.and(
-                    criteriaBuilder.between(root.get("price"), lowestPrice, highestPrice),
-                    criteriaBuilder.equal(root.get("category"), category)
-            );
+            return criteriaBuilder.equal(root.get("category"), category);
         });
     }
 }

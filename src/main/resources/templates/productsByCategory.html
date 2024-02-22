@@ -32,16 +32,19 @@ table{
 <div class="tableDiv">
     <table>
         <tr>
+            <th></th>
             <th>
-            </th>
-            <th>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='desc')}">↓</a>
+                <a class="arrow"
+                   th:href="@{/products/categories(category=${currentCategory}, column='name' ,direction='asc')}">↑</a>
+                <a class="arrow"
+                   th:href="@{/products/categories(category=${currentCategory}, column='name' ,direction='desc')}">↓</a>
             </th>
             <th></th>
             <th>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='desc')}">↓</a>
+                <a class="arrow"
+                   th:href="@{/products/categories(category=${currentCategory}, column='price' ,direction='asc')}">↑</a>
+                <a class="arrow"
+                   th:href="@{/products/categories(category=${currentCategory}, column='price' ,direction='desc')}">↓</a>
             </th>
         </tr>
         <tr class="tableRow" th:each="product : ${products}">

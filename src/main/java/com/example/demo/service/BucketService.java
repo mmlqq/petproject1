@@ -3,10 +3,13 @@ package com.example.demo.service;
 import com.example.demo.dto.BucketDto;
 import com.example.demo.mapper.BucketMapper;
 import com.example.demo.model.Bucket;
+import com.example.demo.model.Product;
 import com.example.demo.repository.BucketRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +22,8 @@ public class BucketService {
     private final ProductService productService;
 
     @Transactional
-    public BucketDto findByUserId(Integer id) {
-        return bucketMapper.to(bucketRepository.findByUserId(id));
+    public Bucket findByUserId(Integer id) {
+        return bucketRepository.findByUserId(id);
     }
 
     @Transactional
@@ -46,8 +49,23 @@ public class BucketService {
     }
 
     @Transactional
-    public void deleteAllProducts(Integer userId) {
+    public void deleteAllProductsByUserId(Integer userId) {
         Bucket bucket = bucketRepository.findByUserId(userId);
         bucket.getProducts().clear();
+    }
+
+    @Transactional
+    public Integer getTotalPrice(Integer id) {
+        Integer totalPrice = 0;
+        List<Product> products = bucketRepository.findByUserId(id).getProducts();
+        for (Product product : products) {
+            totalPrice = totalPrice + product.getPrice();
+        }
+        return totalPrice;
+    }
+
+    @Transactional
+    public Product getProductById(Integer id) {
+        return productService.findById(id);
     }
 }

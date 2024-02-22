@@ -3,7 +3,6 @@
 <head>
     <link rel="stylesheet" th:href="@{/styles/css/defaultTableStyle.css}"/>
     <link rel="stylesheet" th:href="@{/styles/css/homeButton.css}"/>
-    <link rel="stylesheet" th:href="@{/styles/css/arrowStyle.css}"/>
     <link rel="stylesheet" th:href="@{/styles/css/bucketButton.css}"/>
     <style>
 table, th, td {
@@ -32,25 +31,18 @@ table{
 <div class="tableDiv">
     <table>
         <tr>
-            <th>
-            </th>
-            <th>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='name' ,direction='desc')}">↓</a>
-            </th>
             <th></th>
-            <th>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='asc')}">↑</a>
-                <a class="arrow" th:href="@{/products(column='price' ,direction='desc')}">↓</a>
-            </th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-        <tr class="tableRow" th:each="product : ${products}">
-            <td><img th:src="${product.imageLink}" width="120" height="120"></td>
+        <tr class="tableRow" th:each="order : ${orders}">
+            <td th:text="${order.orderStatus}"></td>
             <td class="tableName"><a
-                    th:text="${product.name}"
-                    th:href="@{/products/{id}(id=${product.id})}"></a></td>
-            <td class="tableDescription" th:text="${product.description}"></td>
-            <td th:text="${product.price} + '$'"></td>
+                    th:text="${order.id}"
+            ></a></td>
+            <td class="tableDescription" th:text="${order.address}"></td>
+            <td th:text="${order.totalPrice} + '$'"></td>
         </tr>
     </table>
 </div>
